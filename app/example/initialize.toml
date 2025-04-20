@@ -1,7 +1,7 @@
 # This file will transformed into a json-rpc request object and sent to the
 # server to its `initialize` request endpoint
 
-root_path = "./coolstore"
+root_path = "${env:ROOT_PATH:./coolstore}"
 analyzer_lsp_java_bundle_paths = ["./analysis/bundle.jar"]
 analyzer_lsp_lsp_path = "./analysis/jdtls/bin/jdtls"
 analyzer_lsp_rpc_path = "./analysis/kai-analyzer-rpc"
