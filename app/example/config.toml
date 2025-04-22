@@ -6,4 +6,4 @@ model = "llama-3-3-70b-instruct"
 
 [models.environment]
 OPENAI_API_KEY = "dummy"
-OPENAI_API_BASE = "https://llama-predictor-restore-db-test.apps.salamander.aimlworkbench.com/v1"
+OPENAI_API_BASE = "https://route-llama-70b-ai-composer.apps.salamander.aimlworkbench.com/v1"

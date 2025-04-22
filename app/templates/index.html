@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Kai demo</title>
+  <style>
+    body{font-family:system-ui,Arial,Helvetica,sans-serif;margin:2rem}
+    form{margin-bottom:2rem}
+    table.diff{font-family:monospace;border-collapse:collapse;width:100%}
+    .diff_header{background:#eee;font-weight:bold}
+    .diff_add   {background:#dfd}
+    .diff_chg   {background:#ffd}
+    .diff_sub   {background:#fdd}
+  </style>
+</head>
+<body>
+  <h1>Kai analysis demo</h1>
+
+  <form action="/analyze-form" method="post">
+    <input type="text" name="git_url" size="60"
+           placeholder="https://github.com/…"
+           required>
+    <button>Analyze</button>
+  </form>
+
+  {% if diff_html %}
+    <h2>Last diff</h2>
+    {{ diff_html | safe }}
+  {% else %}
+    <p><em>No analysis run yet — POST to <code>/analyze</code> or use the form above.</em></p>
+  {% endif %}
+</body>
+</html>

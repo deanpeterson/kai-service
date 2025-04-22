@@ -1,8 +1,34 @@
 fastapi
 uvicorn[standard]
+
+# Kai demo runtime
 aiohttp
 idna
 yarl
+
+# OpenTelemetry core + OTLP HTTP exporter
 opentelemetry-api
 opentelemetry-sdk
-pyinstaller         # (needed if run_demo still calls it)
+opentelemetry-exporter-otlp
+
+# LangChain (needed by kai.cache)
+langchain-core           
+langchain-community   
+
+# AWS Bedrock wrapper that Kai imports
+langchain-aws  
+langchain-deepseek 
+langchain-google-genai    
+langchain-ollama    
+
+jinja2
+lxml
+tree-sitter
+tree-sitter-java
+
+# AWS SDK base libs pulled in by langchain‑aws, but pin if you need:
+boto3
+botocore
+
+# Used by kai/run_demo for packaging tasks
+pyinstaller        # (only needed if run_demo still shells out to it)

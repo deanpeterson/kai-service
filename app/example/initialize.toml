@@ -20,4 +20,4 @@ log_dir_path = "./logs"
 provider = "ChatOpenAI"
 
 [model_provider.args]
-model = "kai-test-generation"
+model = "llama-3-3-70b-instruct"

@@ -52,6 +52,13 @@ KAI_LOG = get_logger("run_demo")
 # 1) Add ConfigFile to tweak the server URL and rulesets/violations
 # 2) Limit to specific rulesets/violations we are interested in
 
+# ------------------------------------------------------------------
+# Select **only** the rules we care about.  Point to a single label,
+# ruleset name, or rule‑ID pattern understood by the Kai analyzer.
+# You can override from the environment when you test:
+#   $ KAI_LABEL_SELECTOR="my.other.label" python run_demo.py
+# ------------------------------------------------------------------
+LABEL_SELECTOR = os.getenv("KAI_LABEL_SELECTOR", "my.custom.rule=getfirst")
 
 def pre_flight_checks() -> None:
     for path in [
@@ -256,8 +263,12 @@ async def run_demo(report: Report, server: JsonRpcServer) -> None:
 
 
 async def get_analysis_from_analyzer(server: JsonRpcServer) -> Report:
+    # params = {
+    #     "label_selector": "(konveyor.io/target=cloud-readiness || konveyor.io/target=jakarta-ee || konveyor.io/target=jakarta-ee8 || konveyor.io/target=jakarta-ee9 || konveyor.io/target=openjdk17 || konveyor.io/target=quarkus) || (discovery)",
+    #     "reset_cache": True,
+    # }
     params = {
-        "label_selector": "(konveyor.io/target=cloud-readiness || konveyor.io/target=jakarta-ee || konveyor.io/target=jakarta-ee8 || konveyor.io/target=jakarta-ee9 || konveyor.io/target=openjdk17 || konveyor.io/target=quarkus) || (discovery)",
+        "label_selector": LABEL_SELECTOR,
         "reset_cache": True,
     }
     KAI_LOG.info("setting analysis report labels: %s", params)
