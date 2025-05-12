@@ -8,8 +8,9 @@ from kai_mcp_tools import mcp                 # registers run_kai_analysis()
 
 app = Starlette(
     routes=[
-        Mount("/",   app=rest_app),           # everything works exactly the same
-        Mount("/mcp", app=mcp.sse_app()),     # MCP JSON + SSE endpoints
+        Mount("/rest/",   app=rest_app), # MCP JSON + SSE endpoints
+        Mount("/", app=mcp.sse_app()), # everything works exactly the same
+                  
     ]
 )
 
