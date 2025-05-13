@@ -1,0 +1,70 @@
+name: Global CI
+
+on:
+  push:
+    branches:
+    - main
+    - 'release-*'
+    tags:
+    - 'v*'
+  pull_request:
+    branches:
+    - main
+    - 'release-*'
+
+jobs:
+  build-hub:
+    name: Build tackle2-hub
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        path: rulesets
+
+    - name: Validate YAML rules
+      working-directory: rulesets
+      run: |
+        #!/bin/bash
+        rc=0
+        for file in $(find . -type f -name *.yaml); do
+          yq eval '.' "$file" > /dev/null 2>&1 || {
+            echo "::warning:: bad yaml file ${file}"
+            rc=1
+          }
+        done
+        exit $rc
+
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        repository: konveyor/tackle2-hub
+        ref: ${{ github.event_name == 'push' && github.ref || github.base_ref }}
+        path: tackle2-hub
+
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        repository: konveyor/tackle2-seed
+        ref: ${{ github.event_name == 'push' && github.ref || github.base_ref }}
+        path: tackle2-hub/tackle2-seed
+
+    - name: Update the seed repo
+      working-directory: tackle2-hub/tackle2-seed
+      run: |
+        RULESET_ARGS='-r ../../rulesets --yes' make ruleset-patch
+
+    - name: Build hub and save image
+      working-directory: tackle2-hub
+      env:
+        IMG: ttl.sh/konveyor-hub-${{ github.sha }}:4h
+      run: |
+        podman build --build-arg SEED_ROOT=/opt/app-root/src/tackle2-seed -t $IMG .
+        podman push $IMG
+
+  e2e:
+    needs: build-hub
+    uses: konveyor/ci/.github/workflows/global-ci-bundle.yml@main
+    with:
+      tackle_hub: ttl.sh/konveyor-hub-${{ github.sha }}:4h
