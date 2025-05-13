@@ -28,7 +28,8 @@
     ENV SETUPTOOLS_SCM_PRETEND_VERSION=0.0.0
     RUN python3.12 -m pip install --upgrade pip && \
         pip install "setuptools_scm[toml]>=8" && \
-        pip install /opt/kai                 # installs everything declared in pyproject
+        pip install --upgrade "mcp>=0.8.2" && \
+        pip install /opt/kai
     
     # ---- helper scripts -------------------------------------------
     COPY entrypoint.sh /usr/local/bin/

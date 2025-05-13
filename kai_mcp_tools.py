@@ -1,7 +1,4 @@
-# kai_mcp_tools.py  – only ONE tool, wraps the existing /analyze logic
-from __future__ import annotations
-
-from typing import Any
+# kai_mcp_tools.py  – only ONE tool, wraps the existing /analyze logic
 from starlette.concurrency import run_in_threadpool
 from mcp.server.fastmcp import FastMCP
 
@@ -11,7 +8,7 @@ import service                                     # <‑‑ your original file
 mcp = FastMCP("kai-analysis")
 
 @mcp.tool()
-async def run_kai_analysis(git_url: str) -> dict[str, Any]:
+async def run_kai_analysis(git_url):
     """
     Clone the repo and run Kai analysis (same work /analyze does).
 

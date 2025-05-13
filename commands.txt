@@ -1,2 +1,3 @@
 sudo podman build --no-cache -t kai-service .
 sudo podman run -d --name kai   -p 8000:8000   -e OPENAI_API_KEY=dummy   -e OPENAI_API_BASE=https://llama-predictor-restore-db-test.apps.salamander.aimlworkbench.com/v1   kai-service
+sudo podman run -d --replace --name kai -p 8000:8000 -e OPENAI_API_KEY=dummy -e OPENAI_API_BASE=https://llama-predictor-restore-db-test.apps.salamander.aimlworkbench.com/v1 kai-service
