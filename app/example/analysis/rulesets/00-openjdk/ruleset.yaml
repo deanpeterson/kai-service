@@ -1,0 +1,4 @@
+name: custom-openjdk21-rules
+labels:
+- discovery
+description: This ruleset provides on java code bases for custom java 17 to java 21 migrations.

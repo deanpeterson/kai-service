@@ -1,0 +1,30 @@
+- category: mandatory
+  description: Java 21 List interface includes getFirst()
+  effort: 1
+  labels:
+  - konveyor.io/target=jakarta-ee9+
+  - konveyor.io/target=jakarta-ee
+  - konveyor.io/target=eap8
+  - konveyor.io/target=eap
+  - konveyor.io/target=jws6+
+  - konveyor.io/target=jws
+  - konveyor.io/source=spring5
+  - konveyor.io/target=spring6+
+  - konveyor.io/source
+  links: []
+  message: "The error you're seeing occurs because of a change introduced in Java 21 regarding \n
+    the use of the List interface. In Java 21, the List interface has been updated to \n
+    include a new method called getFirst(). This method has the following signature: public String getFirst(); \n
+    If this List is not empty, the implementation in this interface returns the result of calling get(0). \n
+    Otherwise, it throws NoSuchElementException. Returns: the retrieved element Throws: NoSuchElementException - \n
+    if this collection is empty"
+  ruleID: java21-getfirst-method
+  when:
+    and:
+    - java.referenced:
+        location: METHOD
+        pattern: getFirst
+    - java.referenced:
+        location: IMPLEMENTS_TYPE
+        pattern: List
+    
